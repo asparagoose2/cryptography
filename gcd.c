@@ -1,5 +1,8 @@
 #include "stdio.h"
 
+/*
+    given a, b computes gcd (a,b) and m ,n where: ma + nb = gcd(a,b)
+*/
 void GCD(int a, int b, int *gcd, int *m, int *n)
 {
     if (a % b != 0)
@@ -19,8 +22,8 @@ void GCD(int a, int b, int *gcd, int *m, int *n)
 
 int main(int argc, char const *argv[])
 {
-    int a = 4001;
-    int b = 2689;
+    int a = 77;
+    int b = 5;
     int m , n;
     int ans = 0;
     GCD(a, b, &ans, &m, &n);
