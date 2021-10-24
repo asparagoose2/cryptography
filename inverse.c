@@ -11,6 +11,8 @@ int inverse(long long a, long long p)
 
     GCD(a, p, &gcd, &ans, &temp);
 
+    ans = ans%p;
+
     while(ans < 0) {
         ans += p;
     }
@@ -22,7 +24,6 @@ int main(int argc, char const *argv[])
     float a1 = 5;
     int n = 11;
     int a = inverse(a1, n);
-    // printf("%lf",1.0f/26.0f);
     printf("gcd(%lf,%d) = %d\n", a1, n, a);
     return 0;
 }
