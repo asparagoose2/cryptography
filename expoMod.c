@@ -6,10 +6,10 @@
 /*
     computes x^e mod m
 */
-unsigned int Exponent( unsigned long long x , unsigned long long e , long long m) 
+unsigned long long Exponent( unsigned long long x , unsigned long long e , long long m) 
 {
-    long long exponent = 1;
-    unsigned int ans = x%m;
+    unsigned long long exponent = 1;
+    unsigned long long ans = x%m;
     unsigned long long tempExponent = e;
     int msbFLAG = 0;
     int index = 1;

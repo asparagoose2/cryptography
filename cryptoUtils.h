@@ -1,7 +1,11 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h> 
+
 /*
     given a, b computes gcd (a,b) and m ,n where: ma + nb = gcd(a,b)
 */
-void GCD(int a, int b, int *gcd, int *m, int *n)
+void GCD(unsigned long long a, unsigned long long b, unsigned long long *gcd, long long *m, long long *n)
 {
     if (a % b != 0)
     {
@@ -23,8 +27,8 @@ void GCD(int a, int b, int *gcd, int *m, int *n)
 */
 int inverse(long long a, long long p) 
 {
-    int ans = 0;
-    int gcd, temp;
+    long long ans = 0;
+    unsigned long long gcd, temp;
 
     GCD(a, p, &gcd, &ans, &temp);
 
@@ -49,10 +53,10 @@ int Solve_System(int a,int p,int b, int q) {
 /*
     computes x^e mod m
 */
-unsigned int Exponent( unsigned long long x , unsigned long long e , long long m) 
+unsigned long long Exponent( unsigned long long x , unsigned long long e , unsigned long long m) 
 {
-    long long exponent = 1;
-    unsigned int ans = x%m;
+    unsigned long long exponent = 1;
+    unsigned long long ans = x%m;
     unsigned long long tempExponent = e;
     int msbFLAG = 0;
     int index = 1;
@@ -74,6 +78,11 @@ unsigned int Exponent( unsigned long long x , unsigned long long e , long long m
         }
         tempExponent = tempExponent << 1; // moving to the next digit
     }
+    for(int i=0;i<arraySize;i++)
+    {
+        printf("%d",exponentArray[i]);
+    }
+    printf("\n");
     
     while(exponent != e) // square and multiply method
     {
@@ -86,4 +95,26 @@ unsigned int Exponent( unsigned long long x , unsigned long long e , long long m
         }
     }
     return ans;
+}
+
+unsigned long long newExponent( unsigned long long x , unsigned long long e , unsigned long long m) 
+{
+    if(x==0)
+        return 0;
+    if(e==0)
+        return 1;
+    
+    unsigned long long y;
+
+
+    if(e % 2 == 2)
+    {
+        y = newExponent(x,e/2,m);
+        return (y*y) % m;
+    }
+    else
+    {
+        y = x%m;
+        return (y * newExponent(x,e-1,m) % m);
+    }
 }
