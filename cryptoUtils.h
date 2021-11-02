@@ -5,7 +5,7 @@
 /*
     given a, b computes gcd (a,b) and m ,n where: ma + nb = gcd(a,b)
 */
-void GCD(unsigned long long a, unsigned long long b, unsigned long long *gcd, long long *m, long long *n)
+void GCD(unsigned long a, unsigned long b, unsigned long *gcd, long *m, long *n)
 {
     if (a % b != 0)
     {
@@ -27,8 +27,8 @@ void GCD(unsigned long long a, unsigned long long b, unsigned long long *gcd, lo
 */
 int inverse(long long a, long long p) 
 {
-    long long ans = 0;
-    unsigned long long gcd, temp;
+    long     ans = 0;
+    unsigned long gcd, temp;
 
     GCD(a, p, &gcd, &ans, &temp);
 
@@ -78,6 +78,7 @@ unsigned long long Exponent( unsigned long long x , unsigned long long e , unsig
         }
         tempExponent = tempExponent << 1; // moving to the next digit
     }
+    printf("array size: %d\n", arraySize);
     for(int i=0;i<arraySize;i++)
     {
         printf("%d",exponentArray[i]);
