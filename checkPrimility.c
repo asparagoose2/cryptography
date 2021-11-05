@@ -1,7 +1,7 @@
 #include "cryptoUtils.h"
 
 /*
-    randomize a 64 bit unsigned long long
+    randomize a 32 bit unsigned long long
     srand nust be initialized
 */
 unsigned long random_32_bit_number()
@@ -35,7 +35,6 @@ int check_primility(unsigned long primeToCheck)
         GCD(a,primeToCheck,&gcd,&t,&y);
         if(gcd != 1)
         {
-            printf("GCD failed! (%d)\n",i);
             return 0;  
         } 
 
@@ -45,7 +44,6 @@ int check_primility(unsigned long primeToCheck)
             unsigned long exponentAnswer = Exponent(a,e,primeToCheck);
             if( exponentAnswer == -1 || exponentAnswer == (primeToCheck - 1))
             {
-                printf("here (%d)\n",i);
                 break;
             }
             else if( exponentAnswer == 1)
@@ -54,7 +52,6 @@ int check_primility(unsigned long primeToCheck)
             }
             else 
             {
-                printf("exponent failed! (%d) [exponentAnswer: %lu]\n",i, exponentAnswer);
                 return 0;
             }
         } while(e % 2 == 0);
@@ -62,13 +59,17 @@ int check_primility(unsigned long primeToCheck)
     return 1;
 }
 
-unsigned long long generate_prime()
+unsigned long long generate_prime(int* numberOfTries)
 {
     unsigned long long primeToReturn = 0;
+    *numberOfTries = 0;
     do
     {
+        (*numberOfTries)++;
         primeToReturn =  random_32_bit_number();
     } while(check_primility(primeToReturn) != 1);
+    printf("Number of tries: %d\n", *numberOfTries);
+    printf("primeNumber = %llu\n", primeToReturn);
     return primeToReturn;
 }
 
@@ -86,13 +87,35 @@ int main(int argc, char const *argv[])
 {
     time_t t;
     srand((unsigned) time(&t));
-    unsigned long a,b;
-    // a = generate_prime();
-    a = foo(32,17);
-    printf("a = %lu\n", a);
-    printf("exponent : %llu\n",Exponent(2,a-1,a));
-    // b = random_64_bit_number();
-    if(check_primility(a)) printf("%lu is prime!\n", a);
-    else printf("%lu is not a prime", a);
+    unsigned long primeNumber,randomNumber;
+    //loop to generate prime numbers 10 times and calculates the average number of tries
+    int averageNumberOfTries = 0, numberOfTries = 0;
+    for(int i = 0; i < 10; i++)
+    {
+        generate_prime(&numberOfTries);
+        averageNumberOfTries += numberOfTries;
+    }
+    averageNumberOfTries /= 10;
+    printf("\n\nAverage number of tries: %d\n", averageNumberOfTries);
+    // primeNumber = generate_prime(&numberOfTries);
+    // a = foo(32,209); calculates prime number 2^n - k
+    // if(check_primility(primeNumber)) 
+    // {
+    //     printf("%lu is prime!\n", primeNumber);
+    // }
+    // else
+    // {
+    //     printf("%lu is not prime!\n", primeNumber);
+    // }
+    // randomNumber = random_32_bit_number();
+    // printf("randomNumber = %lu\n", randomNumber);
+    // if(check_primility(randomNumber)) 
+    // {
+    //     printf("%lu is prime!\n", randomNumber);
+    // }
+    // else
+    // {
+    //     printf("%lu is not prime!\n", randomNumber);
+    // }
     return 0;
 }

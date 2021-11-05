@@ -78,12 +78,6 @@ unsigned long long Exponent( unsigned long long x , unsigned long long e , unsig
         }
         tempExponent = tempExponent << 1; // moving to the next digit
     }
-    printf("array size: %d\n", arraySize);
-    for(int i=0;i<arraySize;i++)
-    {
-        printf("%d",exponentArray[i]);
-    }
-    printf("\n");
     
     while(exponent != e) // square and multiply method
     {
@@ -98,7 +92,7 @@ unsigned long long Exponent( unsigned long long x , unsigned long long e , unsig
     return ans;
 }
 
-unsigned long long newExponent( unsigned long long x , unsigned long long e , unsigned long long m) 
+unsigned long long recursiveExponent( unsigned long long x , unsigned long long e , unsigned long long m) 
 {
     if(x==0)
         return 0;
@@ -118,4 +112,14 @@ unsigned long long newExponent( unsigned long long x , unsigned long long e , un
         y = x%m;
         return (y * newExponent(x,e-1,m) % m);
     }
+}
+
+unsigned long long generate_prime()
+{
+    unsigned long long primeToReturn = 0;
+    do
+    {
+        primeToReturn =  random_32_bit_number();
+    } while(check_primility(primeToReturn) != 1);
+    return primeToReturn;
 }
