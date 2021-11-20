@@ -25,7 +25,7 @@ void GCD(unsigned long a, unsigned long b, unsigned long *gcd, long *m, long *n)
 /*
     Given a , n computes a^-1 mod n
 */
-int inverse(long long a, long long p) 
+unsigned long long inverse(long long a, long long p) 
 {
     long     ans = 0;
     unsigned long gcd, temp;
@@ -48,6 +48,40 @@ int Solve_System(int a,int p,int b, int q) {
     return (a*x*q + b*y*p) % (p*q);
 }
 
+
+unsigned long long Exponent2( unsigned long long x,  unsigned long long H,  unsigned long long n){
+
+	unsigned long long h;
+	unsigned long long r;
+	int bin[32];
+	int i;
+	
+	r = x;
+	i = 0;
+
+	/* Converts H in Binary */
+	while( H > 0 ){
+		if (H % 2 == 0){
+			bin[i] = 0;
+		}else{
+			bin[i] = 1;
+		}
+		H = H/2;
+		i++;
+	}
+	i--; //t-1
+
+	while(i>0){
+
+		r = (r * r) % n;
+		if( bin[--i] == 1 ){
+			r = (r * x) % n;
+		}	
+	}
+
+	return r;
+
+}
 
 
 /*
@@ -78,7 +112,7 @@ unsigned long long Exponent( unsigned long long x , unsigned long long e , unsig
         }
         tempExponent = tempExponent << 1; // moving to the next digit
     }
-    
+
     while(exponent != e) // square and multiply method
     {
         ans = (ans * ans ) % m;
@@ -104,14 +138,74 @@ unsigned long long recursiveExponent( unsigned long long x , unsigned long long 
 
     if(e % 2 == 2)
     {
-        y = newExponent(x,e/2,m);
+        y = recursiveExponent(x,e/2,m);
         return (y*y) % m;
     }
     else
     {
         y = x%m;
-        return (y * newExponent(x,e-1,m) % m);
+        return (y * recursiveExponent(x,e-1,m) % m);
     }
+}
+
+/*
+    randomize a 32 bit unsigned long long
+    srand nust be initialized
+*/
+unsigned long random_32_bit_number()
+{
+    unsigned long toReturn = 1;
+    toReturn = toReturn << 1; //changed to make the number smaller
+    for(int i=0; i < 30; i++)
+    {
+        toReturn += rand()%2;
+        toReturn = toReturn << 1;
+    }
+    toReturn += 1; //changed to make the number smaller
+    toReturn = toReturn >> 1;
+    return toReturn;
+}
+
+/*
+    checks if the numner is a prime number with 99.99999% accuracy
+    returns 1 if is prime, 0 if not 
+*/
+int check_primility(unsigned long primeToCheck)
+{
+    for(int i=0; i<20; i++)
+    {
+        unsigned long a;
+        do
+        {
+            a = random_32_bit_number();
+        } while(a >= primeToCheck);
+
+        unsigned long gcd = 0, t,y;
+        GCD(a,primeToCheck,&gcd,&t,&y);
+        if(gcd != 1)
+        {
+            return 0;  
+        } 
+
+        unsigned long e = (primeToCheck - 1);
+        do
+        {
+            unsigned long exponentAnswer = Exponent(a,e,primeToCheck);
+            if( exponentAnswer == -1 || exponentAnswer == (primeToCheck - 1))
+            {
+                break;
+            }
+            else if( exponentAnswer == 1)
+            {
+                e /= 2;
+            }
+            else 
+            {
+                return 0;
+            }
+        } while(e % 2 == 0);
+    }
+    return 1;
 }
 
 unsigned long long generate_prime()
