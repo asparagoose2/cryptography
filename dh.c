@@ -15,7 +15,7 @@ unsigned long long generate_keyPair(int p , int alpha)
 
 void DH_encrypt(unsigned long long p , int alpha, unsigned long long Kpub , unsigned long message, unsigned long long* ephemeral_key, unsigned long*  cipher)
 {
-    unsigned long long i = 9;
+    unsigned long long i = (rand()%(p-4))+2;
     *ephemeral_key = Exponent(alpha, i, p);
     unsigned long long Km = Exponent(Kpub, i, p);
     *cipher = (message * Km) % p;
@@ -33,7 +33,7 @@ int main()
     srand((unsigned) time(&t));
 
     unsigned long chipher;
-    unsigned long message = 123456789;
+    unsigned long message = 12789;
     unsigned long decryptedMessage;
     unsigned long long ephemeral_key;
     unsigned long long p = generate_prime();
