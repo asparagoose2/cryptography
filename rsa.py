@@ -120,13 +120,11 @@ class Rsa:
 
 if __name__ == "__main__":
     rsa = Rsa()
-    # Generate a public and private key.
-    # public_key, private_key = generate_key_pair()
+
     message = 12345678987654321
-    # Encrypt a message.
     cipher = rsa.encrypt(message)
-    # Decrypt the message.
     decrypted_message = rsa.decrypt(cipher)
+
     # Print the results.
     print("Original message:", message)
     print("Encrypted message:", cipher)
