@@ -2,18 +2,24 @@
 #include <stdlib.h>
 #include <time.h> 
 
+
 /*
     given a, b computes gcd (a,b) and m ,n where: ma + nb = gcd(a,b)
 */
 void GCD(unsigned long a, unsigned long b, unsigned long *gcd, long *m, long *n)
 {
+    // printf("GCD(%ld,%ld)\n", a, b);
     if (a % b != 0)
     {
         *gcd = a % b;
         GCD(b, (a - ((a / b) * b)), gcd, m, n);
+        // printf("m = %ld\n", *m);
+        // printf("n = %ld\n", *n);
+
         int tmp = *n;
         *n = (*m) - ((a / b) * tmp);
         *m = tmp;
+        // printf("ans: %lu\n", *m);
     }
     else
     {
@@ -25,12 +31,13 @@ void GCD(unsigned long a, unsigned long b, unsigned long *gcd, long *m, long *n)
 /*
     Given a , n computes a^-1 mod n
 */
-unsigned long long inverse(long long a, long long p) 
+unsigned long long inverse(unsigned long long a, unsigned long long p) 
 {
-    long     ans = 0;
+    unsigned long     ans = 0;
     unsigned long gcd, temp;
-
+    // printf("before GCD in invers ans: %lu\n", ans);
     GCD(a, p, &gcd, &ans, &temp);
+    // printf("after GCD in invers ans: %lu\n", ans);
 
     while(ans < 0) {
         ans += p;
